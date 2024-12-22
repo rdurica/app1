@@ -1,4 +1,6 @@
 {
+    "name": "rdurica/app1",
+    "description": "Test app for k8s and ci/cd",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
