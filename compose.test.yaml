@@ -11,6 +11,6 @@ services:
   nginx:
     build:
       context: .
-      dockerfile: build/test/Dockerfile-nginx
+      dockerfile: build/dev/Dockerfile-nginx
     ports:
       - 80:80
