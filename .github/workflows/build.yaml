@@ -79,7 +79,7 @@ jobs:
             *.tags=${{ env.APP_NAME }}:${{ github.ref_name }}
             *.tags=${{ env.APP_NAME }}:latest
             *.cache-from=type=gha,scope=refs/heads/main
-            *.cache-to=type=gha,scope=${{ github.ref }},mode=max
+            *.cache-to=type=gha,scope=${{ github.sha }},mode=max
 
       - name: Push Image Confirmation
         run: echo "Docker image successfully built and pushed."
