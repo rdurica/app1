@@ -14,8 +14,6 @@ RUN apk update && apk add --no-cache \
     icu-dev \
     && rm -rf /var/cache/apk/*
 
-SHELL ["/bin/sh", "-o", "pipefail"]
-
 COPY build/test/php.ini /usr/local/etc/php/php.ini
 COPY build/test/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
