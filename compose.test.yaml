@@ -11,6 +11,6 @@ services:
   nginx:
     build:
       context: .
-      dockerfile: build/dev/Dockerfile-nginx
+      dockerfile: build/test/Dockerfile-nginx
     ports:
       - 443:443

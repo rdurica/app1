@@ -30,13 +30,6 @@ RUN echo 'alias ll="ls -lah"' >> /home/robbyte/.bashrc && \
     echo "PS1='\e[92m\u\e[0m@\e[94m\h\e[0m:\e[35m\w\e[0m# '" >> /home/robbyte/.bashrc \
     chown -R robbyte:robbyte /app/src
 
-RUN mkdir -p /etc/nginx/certs && \
-    openssl req -x509 -newkey rsa:2048 \
-    -keyout /etc/nginx/certs/server.key \
-    -out /etc/nginx/certs/server.crt \
-    -days 3650 -nodes \
-    -subj "/C=CZ/ST=Praha/L=Praha/O=LocalOrg/CN=localhost"
-
 USER robbyte
 WORKDIR /app/src
 
