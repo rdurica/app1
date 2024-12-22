@@ -37,7 +37,9 @@ jobs:
       -
         name: Start services
         run: docker compose -f compose.test.yaml up --wait
-
+      -
+        name: Ensure correct permissions for vendor directory
+        run: docker compose exec -T php-fpm chown -R robbyte:robbyte /app/src
       -
         name: Install Composer dependencies
         run: docker compose exec -T php-fpm composer install --no-interaction --prefer-dist
