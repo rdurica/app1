@@ -19,7 +19,9 @@ SHELL ["/bin/sh", "-o", "pipefail"]
 COPY build/test/php.ini /usr/local/etc/php/php.ini
 COPY build/test/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
-RUN chown -R robbyte:robbyte /app/src
+RUN echo 'alias ll="ls -lah"' >> /home/robbyte/.bashrc && \
+    echo 'alias c="composer"' >> /home/robbyte/.bashrc && \
+    chown -R robbyte:robbyte /app/src
 
 USER robbyte
 WORKDIR /app/src
