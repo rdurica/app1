@@ -1,6 +1,5 @@
 FROM php:8.4-fpm-alpine
 
-
 ENV TZ=Europe/Prague
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN adduser -D -u 1000 -s /bin/sh robbyte
