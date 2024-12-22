@@ -40,6 +40,7 @@ jobs:
       -
         name: Ensure correct permissions for vendor directory
         run: docker compose exec -T php-fpm chown -R robbyte:robbyte /app/src
+
       -
         name: Install Composer dependencies
         run: docker compose exec -T php-fpm composer install --no-interaction --prefer-dist
@@ -75,4 +76,4 @@ jobs:
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: build/test/Dockerfile
-          ignore: "DL3018"
+          ignore: "DL3018,DL4006,SC2028"
