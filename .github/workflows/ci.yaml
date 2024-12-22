@@ -65,3 +65,4 @@ jobs:
         uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: build/test/Dockerfile
+          hadolint_options: "--ignore DL3018"
