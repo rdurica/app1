@@ -1,0 +1,37 @@
+FROM php:8.4-fpm-alpine
+
+ENV TERM=xterm-256color
+ENV TZ=Europe/Prague
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN adduser -D -u 1000 -s /bin/sh robbyte
+
+RUN apk update && apk add --no-cache \
+    bash \
+    curl \
+    git \
+    libzip-dev \
+    zlib-dev \
+    libxml2-dev \
+    icu-dev \
+    && rm -rf /var/cache/apk/* \
+
+RUN docker-php-ext-install pdo pdo_mysql mysqli zip intl opcache bcmath && \
+    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+RUN curl -sS https://get.symfony.com/cli/installer | bash -s -- --install-dir=/usr/local/bin \
+    && mv /usr/local/bin/symfony* /usr/local/bin/symfony \
+    && chmod +x /usr/local/bin/symfony
+
+COPY build/test/php.ini /usr/local/etc/php/php.ini
+COPY build/test/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+
+RUN chown -R robbyte:robbyte /app/src
+
+USER robbyte
+WORKDIR /app/src
+
+COPY ./src .
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
