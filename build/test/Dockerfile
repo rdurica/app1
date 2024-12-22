@@ -14,8 +14,7 @@ RUN apk update && apk add --no-cache \
     icu-dev \
     && rm -rf /var/cache/apk/*
 
-RUN docker-php-ext-install pdo pdo_mysql mysqli zip intl opcache bcmath && \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+SHELL ["/bin/sh", "-o", "pipefail"]
 
 COPY build/test/php.ini /usr/local/etc/php/php.ini
 COPY build/test/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
