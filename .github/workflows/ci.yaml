@@ -40,23 +40,23 @@ jobs:
 
       -
         name: Install Composer dependencies
-        run: docker compose exec -T php composer install --no-interaction --prefer-dist
+        run: docker compose exec -T php-fpm composer install --no-interaction --prefer-dist
       -
         name: Create test database
         if: false # Remove this line if Doctrine ORM is installed
-        run: docker compose exec -T php bin/console -e test doctrine:database:create
+        run: docker compose exec -T php-fpm bin/console -e test doctrine:database:create
       -
         name: Run migrations
         if: false # Remove this line if Doctrine Migrations is installed
-        run: docker compose exec -T php bin/console -e test doctrine:migrations:migrate --no-interaction
+        run: docker compose exec -T php-fpm bin/console -e test doctrine:migrations:migrate --no-interaction
       -
         name: Run PHPUnit
         if: false # Remove this line if PHPUnit is installed
-        run: docker compose exec -T php bin/phpunit
+        run: docker compose exec -T php-fpm bin/phpunit
       -
         name: Doctrine Schema Validator
         if: false # Remove this line if Doctrine ORM is installed
-        run: docker compose exec -T php bin/console -e test doctrine:schema:validate
+        run: docker compose exec -T php-fpm bin/console -e test doctrine:schema:validate
 
       - name: Check HTTPS reachability
         run: curl -vk --fail-with-body https://localhost
