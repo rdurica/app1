@@ -40,9 +40,7 @@ jobs:
 
       -
         name: Install Composer dependencies
-        run: |
-          docker compose exec -T php curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-          docker compose exec -T php composer install --no-interaction --prefer-dist
+        run: docker compose exec -T php composer install --no-interaction --prefer-dist
       -
         name: Create test database
         if: false # Remove this line if Doctrine ORM is installed
