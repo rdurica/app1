@@ -18,7 +18,9 @@ RUN docker-php-ext-install pdo pdo_mysql mysqli zip intl opcache bcmath && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 #COPY build/prod/php.ini /usr/local/etc/php/php.ini
-RUN mkdir -p /var/php-fpm && chown robbyte:www-data /var/php-fpm
+RUN mkdir -p /var/php-fpm
+RUN chown -R robbyte:www-data /var/php-fpm
+
 COPY build/prod/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
 USER robbyte
