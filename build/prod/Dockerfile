@@ -2,6 +2,7 @@ FROM php:8.4-fpm-alpine
 
 ENV TZ=Europe/Prague
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN adduser -D -u 1000 -s /bin/sh robbyte
 
 RUN apk update && apk add --no-cache \
     bash \
@@ -19,6 +20,7 @@ RUN docker-php-ext-install pdo pdo_mysql mysqli zip intl opcache bcmath && \
 COPY build/prod/php.ini /usr/local/etc/php/php.ini
 COPY build/prod/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 
+USER robbyte
 WORKDIR /app/src
 
 COPY ./src .
