@@ -24,7 +24,7 @@ USER robbyte
 WORKDIR /app/src
 
 COPY ./src .
-
+USER root
 EXPOSE 9000
 
 CMD ["php-fpm"]
