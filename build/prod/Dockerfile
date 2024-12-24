@@ -29,4 +29,4 @@ COPY ./src .
 
 EXPOSE 9000
 
-CMD ["php-fpm", "-F", "-R", "-D"]
+CMD ["php-fpm"]
