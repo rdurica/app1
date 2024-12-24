@@ -20,6 +20,7 @@ RUN docker-php-ext-install pdo pdo_mysql mysqli zip intl opcache bcmath && \
 COPY build/prod/php.ini /usr/local/etc/php/php.ini
 COPY build/prod/php-fpm.conf /usr/local/etc/php-fpm.d/app1.conf
 
+USER root
 # Debug
 RUN echo 'alias ll="ls -lah"' >> /home/robbyte/.bashrc && \
     echo 'alias c="composer"' >> /home/robbyte/.bashrc && \
