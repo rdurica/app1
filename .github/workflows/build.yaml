@@ -86,10 +86,14 @@ jobs:
             *.cache-from=type=gha,scope=refs/heads/main
             *.cache-to=type=gha,scope=${{ github.sha }},mode=max
 
-      - name: Install Cosign
+      - name: Install cosign
+        uses: sigstore/cosign-installer@v3.7.0
+        with:
+          cosign-release: 'v2.4.1'
+
+      - name: Verify cosign installation
         run: |
-          sudo apt-get update
-          sudo apt-get install -y cosign
+          cosign version
 
       # Keyless signing
       - name: Keyless Sign Docker Image
