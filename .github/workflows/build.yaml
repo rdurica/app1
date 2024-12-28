@@ -98,11 +98,11 @@ jobs:
       # Keyless signing
       - name: Keyless Sign Docker Image
         run: |
-          cosign sign --keyless ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ github.ref_name }}
-          cosign sign --keyless ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
+          cosign sign ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ github.ref_name }}
+          cosign sign ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
 
       # Keyless verification
       - name: Verify Keyless Signature
         run: |
-          cosign verify --keyless ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ github.ref_name }}
-          cosign verify --keyless ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
+          cosign verify ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ github.ref_name }}
+          cosign verify ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
