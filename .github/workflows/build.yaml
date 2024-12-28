@@ -95,14 +95,18 @@ jobs:
         run: |
           cosign version
 
-      # Keyless signing
-      - name: Keyless Sign Docker Image
+      - name: Get image digest
+        id: get-digest
         run: |
-          cosign sign ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
-        env:
-          COSIGN_EXPERIMENTAL: 1
+          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ github.sha }})
+          echo "digest=$IMAGE_DIGEST" >> $GITHUB_ENV
 
-      # Keyless verification
-      - name: Verify Keyless Signature
+      # Sign image with Cosign (keyless)
+      - name: Sign Docker image with Cosign (keyless)
         run: |
-          cosign verify ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
+          cosign sign --keyless ${{ env.digest }}
+
+      - name: Sign 'latest' tag with Cosign (keyless)
+        run: |
+          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest)
+          cosign sign --keyless $IMAGE_DIGEST
