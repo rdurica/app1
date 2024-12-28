@@ -14,17 +14,12 @@ RUN apk update && apk add --no-cache \
     icu-dev \
     && rm -rf /var/cache/apk/* \
 
-RUN docker-php-ext-install pdo pdo_mysql mysqli zip intl opcache bcmath && \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN docker-php-ext-install pdo pdo_mysql mysqli zip intl opcache bcmath
 
 COPY build/prod/php.ini /usr/local/etc/php/php.ini
 COPY build/prod/php-fpm.conf /usr/local/etc/php-fpm.d/app1.conf
 
 USER robbyte
-# Debug
-RUN echo 'alias ll="ls -lah"' >> /home/robbyte/.bashrc && \
-    echo 'alias c="composer"' >> /home/robbyte/.bashrc && \
-    echo "PS1='\e[92m\u\e[0m@\e[94m\h\e[0m:\e[35m\w\e[0m# '" >> /home/robbyte/.bashrc
 
 WORKDIR /app/src
 

@@ -2,15 +2,10 @@ name: Docker Image CI
 
 # debugging
 on:
-  push:
-    branches:
-      - main
-
-#on:
-#  release:
-#    types:
-#      - published
-#      - edited
+  release:
+    types:
+      - published
+      - edited
 
 jobs:
   build:
