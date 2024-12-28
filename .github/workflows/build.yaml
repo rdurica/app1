@@ -100,6 +100,8 @@ jobs:
         run: |
           cosign sign ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ github.ref_name }}
           cosign sign ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
+        env:
+          COSIGN_EXPERIMENTAL: 1
 
       # Keyless verification
       - name: Verify Keyless Signature
