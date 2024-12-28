@@ -2,10 +2,17 @@ name: Docker Image CI
 
 # debugging
 on:
-  release:
-    types:
-      - published
-      - edited
+  push:
+    branches:
+      - main
+  pull_request: ~
+  workflow_dispatch: ~
+
+#on:
+#  release:
+#    types:
+#      - published
+#      - edited
 
 jobs:
   build:
@@ -79,5 +86,19 @@ jobs:
             *.cache-from=type=gha,scope=refs/heads/main
             *.cache-to=type=gha,scope=${{ github.sha }},mode=max
 
-      - name: Push Image Confirmation
-        run: echo "Docker image successfully built and pushed."
+      - name: Install Cosign
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cosign
+
+      # Keyless signing
+      - name: Keyless Sign Docker Image
+        run: |
+          cosign sign --keyless ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ github.ref_name }}
+          cosign sign --keyless ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
+
+      # Keyless verification
+      - name: Verify Keyless Signature
+        run: |
+          cosign verify --keyless ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ github.ref_name }}
+          cosign verify --keyless ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest
