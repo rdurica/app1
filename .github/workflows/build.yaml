@@ -98,15 +98,15 @@ jobs:
       - name: Get image digest
         id: get-digest
         run: |
-          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ github.sha }})
+          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' rdurica/app1:${{ github.sha }})
           echo "digest=$IMAGE_DIGEST" >> $GITHUB_ENV
 
       # Sign image with Cosign (keyless)
       - name: Sign Docker image with Cosign (keyless)
         run: |
-          cosign sign --keyless ${{ env.digest }}
+          cosign sign ${{ env.digest }}
 
       - name: Sign 'latest' tag with Cosign (keyless)
         run: |
-          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest)
-          cosign sign --keyless $IMAGE_DIGEST
+          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' rdurica/app1:latest)
+          cosign sign $IMAGE_DIGEST
