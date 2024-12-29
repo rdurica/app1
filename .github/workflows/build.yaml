@@ -95,18 +95,24 @@ jobs:
         run: |
           cosign version
 
-      - name: Get image digest
+      - name: Get image digest for ${APP_NAME}:${GITHUB_SHA}
         id: get-digest
         run: |
-          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' rdurica/app1:${{ github.sha }})
+          docker pull ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ github.sha }}  # Ensure the image is in the registry
+          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ github.sha }})
           echo "digest=$IMAGE_DIGEST" >> $GITHUB_ENV
 
-      # Sign image with Cosign (keyless)
-      - name: Sign Docker image with Cosign (keyless)
+      - name: Sign image with Cosign (keyless) for ${APP_NAME}:${GITHUB_SHA}
         run: |
           cosign sign ${{ env.digest }}
 
+      - name: Get image digest for ${APP_NAME}:latest
+        id: get-digest-latest
+        run: |
+          docker pull ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest  # Ensure the latest tag is in the registry
+          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest)
+          echo "digest_latest=$IMAGE_DIGEST" >> $GITHUB_ENV
+
       - name: Sign 'latest' tag with Cosign (keyless)
         run: |
-          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' rdurica/app1:latest)
-          cosign sign $IMAGE_DIGEST
+          cosign sign ${{ env.digest_latest }}
