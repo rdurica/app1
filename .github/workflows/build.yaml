@@ -85,34 +85,3 @@ jobs:
             *.tags=${{ env.APP_NAME }}:latest
             *.cache-from=type=gha,scope=refs/heads/main
             *.cache-to=type=gha,scope=${{ github.sha }},mode=max
-
-      - name: Install cosign
-        uses: sigstore/cosign-installer@v3.7.0
-        with:
-          cosign-release: 'v2.4.1'
-
-      - name: Verify cosign installation
-        run: |
-          cosign version
-
-      - name: Get image digest for ${APP_NAME}:${GITHUB_SHA}
-        id: get-digest
-        run: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ github.sha }}  # Ensure the image is in the registry
-          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:${{ github.sha }})
-          echo "digest=$IMAGE_DIGEST" >> $GITHUB_ENV
-
-      - name: Sign image with Cosign (keyless) for ${APP_NAME}:${GITHUB_SHA}
-        run: |
-          cosign sign ${{ env.digest }}
-
-      - name: Get image digest for ${APP_NAME}:latest
-        id: get-digest-latest
-        run: |
-          docker pull ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest  # Ensure the latest tag is in the registry
-          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' ${{ secrets.DOCKER_USERNAME }}/${{ env.APP_NAME }}:latest)
-          echo "digest_latest=$IMAGE_DIGEST" >> $GITHUB_ENV
-
-      - name: Sign 'latest' tag with Cosign (keyless)
-        run: |
-          cosign sign ${{ env.digest_latest }}

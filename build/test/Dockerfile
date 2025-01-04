@@ -36,6 +36,8 @@ COPY build/dev/php/php-fpm.conf /usr/local/etc/php-fpm.d/app.conf
 COPY build/dev/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY build/dev/nginx/default.conf /etc/nginx/http.d/default.conf
 COPY build/dev/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY build/dev/supervisord/start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
 
 RUN addgroup robbyte nginx
 RUN mkdir -p /var/lib/nginx && \
@@ -52,5 +54,4 @@ COPY ./src .
 RUN chown -R robbyte:robbyte /app/src
 USER robbyte
 
-COPY build/dev/supervisord/start.sh /usr/local/bin/start.sh
 CMD ["/usr/local/bin/start.sh", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
