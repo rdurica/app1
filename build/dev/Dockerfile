@@ -36,7 +36,6 @@ COPY build/dev/supervisord/start.sh /usr/local/bin/start.sh
 
 #ADD build/dev/certs/server.crt /usr/local/share/ca-certificates/server.crt
 #RUN update-ca-certificates
-#ADD cp /etc/nginx/certs/tls.crt /usr/local/share/ca-certificates/tls.crt
 
 RUN chmod +x /usr/local/bin/start.sh && \
     addgroup robbyte nginx && \
