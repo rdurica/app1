@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       APP_NAME: "rdurica/app1"  # <-- Name of application
+      APP_ENV: "prod"
 
     steps:
       -
