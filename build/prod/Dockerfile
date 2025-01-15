@@ -27,6 +27,9 @@ RUN mkdir -p /etc/nginx/certs && \
     -days 3650 -nodes \
     -subj "/C=CZ/ST=Praha/L=Praha/O=LocalOrg/CN=localhost"
 
+RUN cp /etc/nginx/certs/server.crt /usr/local/share/ca-certificates/server.crt
+RUN update-ca-certificates
+
 COPY build/prod/php/php.ini /usr/local/etc/php/php.ini
 COPY build/prod/php/php-fpm.conf /usr/local/etc/php-fpm.d/app.conf
 COPY build/prod/nginx/nginx.conf /etc/nginx/nginx.conf
