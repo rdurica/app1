@@ -20,6 +20,13 @@ RUN apk update && apk add --no-cache \
 RUN docker-php-ext-install pdo pdo_mysql mysqli zip intl opcache bcmath && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+RUN mkdir -p /etc/nginx/certs && \
+    openssl req -x509 -newkey rsa:4096 \
+    -keyout /etc/nginx/certs/server.key \
+    -out /etc/nginx/certs/server.crt \
+    -days 3650 -nodes \
+    -subj "/C=CZ/ST=Praha/L=Praha/O=LocalOrg/CN=localhost"
+
 COPY build/prod/php/php.ini /usr/local/etc/php/php.ini
 COPY build/prod/php/php-fpm.conf /usr/local/etc/php-fpm.d/app.conf
 COPY build/prod/nginx/nginx.conf /etc/nginx/nginx.conf

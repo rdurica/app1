@@ -1,0 +1,11 @@
+body {
+    background-color: white;
+}
+html[data-turbo-visit-direction="forward"]::view-transition-old(sidebar):only-child {
+    animation: slide-to-right 0.5s ease-out;
+}
+
+.turbo-progress-bar {
+    height: 5px;
+    background-color: green;
+}

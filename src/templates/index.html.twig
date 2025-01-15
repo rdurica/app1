@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+<h1>Test</h1>
+
+{#    <turbo-frame id="the_frame_id">#}
+        <a href="{{ path('app_registration') }}" data-turbo-action="replace">This block is scoped, the rest of the page will not change if you click here!</a>
+{#    </turbo-frame>#}
+{% endblock %}

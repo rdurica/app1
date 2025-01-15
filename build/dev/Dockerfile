@@ -6,7 +6,10 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN adduser -D -u 1000 -s /bin/sh robbyte
 
 RUN apk update && apk add --no-cache \
+    ca-certificates \
     supervisor \
+    nodejs \
+    npm \
     nginx \
     bash \
     curl \
@@ -30,6 +33,10 @@ COPY build/dev/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY build/dev/nginx/default.conf /etc/nginx/http.d/default.conf
 COPY build/dev/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY build/dev/supervisord/start.sh /usr/local/bin/start.sh
+
+#ADD build/dev/certs/server.crt /usr/local/share/ca-certificates/server.crt
+#RUN update-ca-certificates
+#ADD cp /etc/nginx/certs/tls.crt /usr/local/share/ca-certificates/tls.crt
 
 RUN chmod +x /usr/local/bin/start.sh && \
     addgroup robbyte nginx && \

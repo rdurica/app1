@@ -25,7 +25,7 @@ RUN curl -sS https://get.symfony.com/cli/installer | bash -s -- --install-dir=/u
     && chmod +x /usr/local/bin/symfony
 
 RUN mkdir -p /etc/nginx/certs && \
-    openssl req -x509 -newkey rsa:2048 \
+    openssl req -x509 -newkey rsa:4096 \
     -keyout /etc/nginx/certs/server.key \
     -out /etc/nginx/certs/server.crt \
     -days 3650 -nodes \
